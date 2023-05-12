@@ -24,8 +24,8 @@ bodenflaeche <- header.true(bodenflaeche)
 names(bodenflaeche)[1] <- "ID"
 names(bodenflaeche)[2] <- "Kreis"
 bodenflaeche[1,1] <- '0'
-bodenflaeche[,1] <- sapply(bodenflaeche[,1],as.numeric)
+#bodenflaeche[,1] <- sapply(bodenflaeche[,1],as.numeric)
 
 bodenflaeche$ID <- ifelse(nchar(bodenflaeche$ID) > 5, 
-                          substring(bodenflaeche$ID, 1, 5), 
+                          substring(bodenflaeche$ID, 0, 5), 
                           bodenflaeche$ID)
