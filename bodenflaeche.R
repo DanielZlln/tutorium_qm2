@@ -18,10 +18,14 @@ bodenflaeche[2,6] <- "Vegetation"
 bodenflaeche[2,14] <- "Gewässer"
 bodenflaeche <- bodenflaeche[-1,]
 bodenflaeche <- bodenflaeche[-2,]
-
+bodenflaeche <- bodenflaeche[1:539,]
 bodenflaeche <- header.true(bodenflaeche)
 
 names(bodenflaeche)[1] <- "ID"
 names(bodenflaeche)[2] <- "Kreis"
+bodenflaeche[1,1] <- '0'
+bodenflaeche[,1] <- sapply(bodenflaeche[,1],as.numeric)
 
-bodenflaeche <- bodenflaeche[1:538,]
+bodenflaeche$ID <- ifelse(nchar(bodenflaeche$ID) > 5, 
+                          substring(bodenflaeche$ID, 1, 5), 
+                          bodenflaeche$ID)
