@@ -18,6 +18,3 @@ names(bevoeklerung)[1] <- "ID"
 names(bevoeklerung)[3] <- "Insgesamt Bevölkerung"
 
 bevoeklerung <- bevoeklerung[1:538,]
-
-neuer_df <- merge(bodenflaeche, bevoeklerung, by = "ID") %>% 
-  select(-'Kreis.y')
