@@ -8,9 +8,12 @@ source("beschaeftigte.R")
 source("bevoelkerung.R")
 source("bodenflaeche.R")
 source("wahlbeteiligung.R")
+source("tourismus.R")
+source("siedlungsfläche.R")
 
 
-df_list <- list(bodenflaeche, ackerland, beschaeftigte, bevoeklerung, wahlbeteiligung)
+df_list <- list(bodenflaeche, siedlungsflaeche, ackerland, beschaeftigte, bevoeklerung, 
+                wahlbeteiligung, tourismus)
 
 fallstudie <- Reduce(function(x,y) merge(x,y, by = c("ID","Kreis"), all = TRUE),
        df_list)
@@ -24,21 +27,4 @@ fallstudie <- for(i in 1:ncol(fallstudie)) {
     neu_fallstudie[,i] <- as.numeric(fallstudie[,i]) 
   }
 }
-
-fallstudie_num <- neu_fallstudie %>% 
-  select(where(is.numeric))
-
-exclude_na <- function(df) {
-  for (i in 1:ncol(df)) {
-    if (anyNA(df[[i]]) & is.numeric(df[[i]])) {
-      for (j in 1:length(df[,i])) {
-        if (is.na(df[j,i])) {
-          df[j,i] <- mean(df[,i], na.rm = T) 
-        }
-      }
-    }
-  }
-  return(df)
-}
-
 
