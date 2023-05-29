@@ -77,42 +77,82 @@ Bewertet werden alle Teile der Abgabe nach folgenden Kriterien:
 
 ## Merkmale des Datensatzes
 
-| ID | Spaltenbezeichnung          | Erläuterung                                                |
-|----|-----------------------------|------------------------------------------------------------|
-| 1  | ID                          | Eindeutige Identifikationsnummer der Gemeinde.             |
-| 2  | Region                      | Region in der die Gemeinde liegt.                          |
-| 3  | Provinz                     | Provinz in der die Gemeinde liegt.                         |
-| 4  | Gemeinde                    | Name der Gemeinde.                                         |  
-| 5  | Flaeche                     | Fläche der Gemeinde in km2.                                |
-| 6  | Bevoelkerung                | Population der Gemeinde.                                   |
-| 7  | Bevoelkerungsdichte         | Population der Gemeinde pro km2.                           |  
-| 8  | Strassen                    | Gesamtlänge aller Straßen der Gemeinde in km.              |  
-| 9  | Inselgemeinde               | Indikator ob Gemeinde auf einer Insel ist (1 ja, 0 nein).  |
-| 10 | Kuestengemeinde             | Indikator ob Gemeinde an der Küste liegt (1 ja, 0 nein).   |
-| 11 | Urbanisierungsgrad          | Grad der Gemeindeurbanisierung (1 niedrig, 3 hoch).        |
-| 12 | Geologischer_Indikator      | Geologische Lage der Gemeinde (1 Süden, 2 Mitte, 3 Norden).|
-| 13 | Abfaelle_gesamt             | Gesamtmenge der Gemeindeabfälle in Kilotonnen (kt).        |
-| 14 | Abfaelle_sortiert           | Sortierte Gemeindeabfälle in Kilotonnen (kt).              |                           
-| 15 | Abfaelle_unsortiert         | Unsortierte Gemeindeabfälle in Kilotonnen (kt).            |
-| 16 | Sortierungsgrad             | Anteil der sortierten Gemeindeabfälle an den Gesamten.     |
-| 17 | Sort_Bio                    | Anteil der Bio-Abfällen unter den Sortierten.              |  
-| 18 | Sort_Papier                 | Anteil der Papier-Abfällen unter den Sortierten.           |    
-| 19 | Sort_Glas                   | Anteil der Glas-Abfällen unter den Sortierten.             |  
-| 20 | Sort_Holz                   | Anteil der Holz-Abfällen unter den Sortierten.             |  
-| 21 | Sort_Metall                 | Anteil der Metall-Abfällen unter den Sortierten.           |
-| 22 | Sort_Plastik                | Anteil der Plastik-Abfällen unter den Sortierten.          |  
-| 23 | Sort_Elektrik               | Anteil der Elektrik-Abfällen unter den Sortierten.         |  
-| 24 | Sort_Textil                 | Anteil der Textil-Abfällen unter den Sortierten.           |
-| 25 | Sort_Rest                   | Anteil der Rest-Abfällen unter den Sortierten.             |
-| 26 | Verwendung_Energie          | Anteil des Abfalls, der Energiegewinnung verwendet wird.   |
-| 27 | Verwendung_Deponie          | Anteil des Abfalls, der auf Deponien eingelagert wird.     |
-| 28 | Verwendung_Recycling        | Anteil des Abfalls, der recyclet wird.                     |
-| 29 | Verwendung_Unbekannt        | Anteil des Abfalls, dessen Weiterverwendung unbekannt ist. |
-| 30 | Steuern_gewerblich          | Pro Kopf Steuereinnahmen aus gewerblichen Quellen.         |
-| 31 | Steuern_privat              | Pro Kopf Steuereinnahmen aus privaten Quellen.             |  
-| 32 | Kosten_Basis                | Pro Kopf Basiskosten der Abfallwirtschaften.               |
-| 33 | Kosten_Sortierung           | Pro Kopf Sortierungskosten der Abfallwirtschaften.         |
-| 34 | Kosten_sonstiges            | Pro Kopf sonstige Kosten der Abfallwirtschaften.           |
-| 35 | Gebuehrenregelung           | Abfallgebührenregelung der Gemeinde.                       |
-| 36 | Region_PAYT                 | Indikator ob Region PAYT (Pay as you throw) anbietet.      |
+| ID | Spaltenbezeichnung         | Erläuterung                                                 |
+|----|----------------------------|-------------------------------------------------------------|
+| 1  | ID                         | Eindeutige Identifikationsnummer des Kreises,               |
+|    |                            | bzw. des Bundeslandes.                                      |
+| 2  | Kreis                      | Name des Kreises / Bundeslandes.                            |
+| 3  | Fläche insgesamt           | Bodenfläche insgesamt des Kreises / Bundeslandes in ha.     |
+| 4  | Siedlung                   | Prozentualer Anteil von Siedlungsflächen an der Bodenfläche |  
+| 5  | Verkehr                    | Prozentualer Anteil von Verkehrsflächen an der Bodenfläche  |
+| 6  | Vegetationsfläche          | Prozentualer Anteil von Vegetationsflächen an der           |
+| 7  | Gewässer                   | Prozentualer Anteil von Gewässern an der Bodenfläche        |                     
+| 8  | Siedlungsfläche Gesamt     | Gesamte Siedlungsfläche des Kreises / Bundeslandes in ha    |  
+| 9  | Wohnbaufläche              | Prozentualer Anteil der Wohnfläche an der Siedlungsfläche   |  
+| 10 | Industrie - und            | Prozentualer Anteil der Industrie- und  Gewerbefläche       |
+|    | Gewerbefläche              | an der Siedlungsfläche                                      |
+| 11 | Halde                      | Prozentualer Anteil der Halde an der Siedlungsfläche        |  
+| 12 | Tagebau, Grube, Steinbruch | Prozentualer Anteil von Tagebau, Gruben und Steinbrüche     |
+|    |                            | an der Siedlungsfläche                                      |
+| 13 | Fläche gemischte Nutzung   | Prozentualer Anteil der gemischten Flächennutzung           |
+|    |                            | an der Siedlungsfläche                                      |
+| 14 | Fläche besonderer          | Prozentualer Anteil der Flächen mit besonderer funktionaler |
+|    | funktionaler Prägung       | Prägung an der Siedlungsfläche                              |
+| 15 | Sport-, Freizeit- und      | Prozentualer Anteil der Sport-, Freizeit- und               |
+|    | Erholungsfläche            | Erholungsflächen an der Siedlungsfläche                     |
+| 16 | Grünanlagen                | Prozentualer Anteil Grünanlagen an der Siedlungsfläche      |
+| 17 | Friedhof                   | Prozentualer Anteil an Friedhöfen an der Siedlungsfläche    |
+| 18 | Ackerland insgesamt        | Ackerland insgesamt in ha des Kreises / Bundeslandes        |
+| 19 | Getreide                   | Prozentualer Anteil Getreideanbau vom Ackerland             |
+| 20 | Weizen                     | Prozentualer Anteil Weizenanbau vom Ackerland               |  
+| 21 | Winterweizen (einschl.     | Prozentualer Anteil Winterweizenanbau (einschl. Dinker und  |
+|    | Dinkel und Einkorn         | Einkorn) vom Ackerland                                      |         
+| 22 | Roggen und                 | Prozentualer Anteil Roggen- und Wintermenggetreideanbau     |
+|    | Wintermenggetreide         | vom Ackerland                                               |
+| 23 | Triticale                  | Prozentualer Anteil Triticaleanbau vom Ackerland            |
+| 24 | Gerste                     | Prozentualer Anteil Gerstenanbau vom Ackerland              |
+| 25 | Hafer                      | Prozentualer Anteil Haferanbau vom Ackerland                |
+| 26 | Körnermais/Corn-Cob-Mix    | Prozentualer Anteil Körnermais/Corn-Cob-Mix Anbau           |
+|    |                            | vom Ackerland                                               | 
+| 27 | Sonstige Getreide          | Prozentualer Anteil sonstige Getreideanbau vom Ackerland    |
+| 28 | Pflanzen zur Grünernte     | Prozentualer Anteil Pflanzen zur Grünernet Anbau am         |
+|    |                            | Ackerland                                                   |
+| 29 | Silomais/Grünmais          | Prozentualer Anteil Silomais-/Grünmaisanbau vom Ackerland   |
+| 30 | Zuckerrüben                | Prozentualer Anteil Zuckerrübenanbau vom Ackerland          |
+| 31 | Kartoffeln                 | Prozentualer Anteil Kartoffelanbau vom Ackerland            |
+| 32 | Ölfrüchte                  | Prozentualer Anteil Ölfrüchtenanbau vom Ackerland           |
+| 33 | Winterraps                 | Prozentualer Anteil Winterrapsanbau vom Ackerland           |
+| 34 | Hülsenfrüchte              | Prozentualer Anteil Hülsenfrüchteanbau vom Ackerland        |
+| 35 | Niederlassungen            | Niederlassungen insgesamt des Kreises / Bundeslandes        |
+| 35 | 0 bis unter 10 abhängig    | Prozentualer Anteil Niederlassungen mit unter 10            |
+|    | Beschäftigte               | Beschäftigten                                               |
+| 36 | 10 bis unter 50 abhängig   | Prozentualer Anteil Niederlassungen mit 10 bis unter 50     |
+|    | Beschäftigte               | Beschäftigten                                               |
+| 37 | 50 bis unter 250 abhängig  | Prozentualer Anteil Niederlassungen mit 50 bis unter 250    |
+|    | Beschäftigte               | Beschäftigten                                               |
+| 38 | 250 und mehr abhängig      | Prozentualer Anteil Niederlassungen 250 und mehr            |
+|    | Beschäftigte               | Beschäftigten                                               |
+| 39 | Bevölkerung                | Bevölkerung insgesamt pro Kreis / Bundesland                |
+| 40 | Wahlberechtigte            | Wahlberechtigte pro Kreis / Bundesland                      |
+| 41 | Wahlbeteiligung            | Prozentuale Wahlbeteiligung pro Kreis / Bundesland          |
+| 42 | Gültige Zweitstimmen       | Gültige Zweitstimmen pro Kreis / Bundesland                 |
+| 43 | CDU/CSU                    | Gültige Zweitstimmen CDU/CSU pro Kreis / Bundesland         |
+| 44 | SPD                        | Gültige Zweitstimmen SPD pro Kreis / Bundesland             |
+| 45 | Grüne                      | Gültige Zweitstimmen Grüne pro Kreis / Bundesland           |
+| 46 | FDP                        | Gültige Zweitstimmen FDP pro Kreis / Bundesland             |
+| 47 | DIE LINKE                  | Gültige Zweitstimmen DIE LINKE pro Kreis / Bundesland       |
+| 48 | AfD                        | Gültige Zweitstimmen Afd pro Kreis / Bundesland             |
+| 49 | Sonstige Partein           | Gültige Zweitstimmen sonstige Partein pro Kreis / Bundesland|
+| 50 | Geöffnete                  | Anzahl an geöffneten Beherbergungsbetrieben                 |
+|    | Beherbergungsbetriebe      |                                                             |
+| 51 | Angebotene                 | Anzahl an Betten zur Übernachtung                           |
+|    | Schlafgelegenheiten        |                                                             |
+| 52 | Insg. Gästeankünfte        | Insgesamt Gästeänkünfte pro Jahr                            |
+| 53 | GA Inland                  | Insgesamt Gästeänkünfte die aus dem Inland kommen           |
+| 54 | GA Ausland                 | Insgesamt Gästeänkünfte die aus dem Ausland kommen          |
+| 55 | Insg. Gästeübernachtungen  | Insgesamt Gästeübernachtungen pro Jahr                      |
+| 56 | GÜ Inland                  | Gästeübernachtungen mit Gästen aus dem Inland               |
+| 57 | GÜ Ausland                 | Gästeübernachtungen mit Gästen aus dem Ausland              |
+
+
 
