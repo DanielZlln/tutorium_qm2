@@ -18,6 +18,7 @@ source("bodenflaeche.R")
 source("wahlbeteiligung.R")
 source("tourismus.R")
 source("siedlungsflaeche.R")
+source("ags.R")
 
 # Merge der Datensätze
 df_list <- list(bodenflaeche, siedlungsflaeche, ackerland, beschaeftigte, bevoeklerung, 
@@ -43,8 +44,7 @@ df <- df[, !colnames(df) %in% c("männlich", "weiblich")]
 imputed_data <- kNN(df)
 
 df <- imputed_data[1:58]
-imputation_indicators <- imputed_data[59:116]
-
+imputation_indicators <- imputed_data[c(1, 59:116)]
 
 # "Gesamt" neue ausrechnen
 sum_and_replace <- function(df, selected_column, num_following_columns) {
@@ -56,8 +56,14 @@ sum_and_replace <- function(df, selected_column, num_following_columns) {
   return(df)
 }
 
+#Auskommentierte Schritte wurden nicht ausgeführt, da eine zu starke Korrektur für eine Nicht-Optimierbarkeit in der Faktoranalyse gesorgt hat
+#df <- sum_and_replace(df, "Fläche insgesamt", 4)
+df <- sum_and_replace(df, "Siedlungsfläche Gesamt", 9)
 df <- sum_and_replace(df, "Ackerland insgesamt", 16)
-
+#df <- sum_and_replace(df, "Niederlassungen", 4)
+#df <- sum_and_replace(df, "Gültige Zweitstimmen", 7)
+#df <- sum_and_replace(df, "Insg. Gästeankünfte", 2)
+#df <- sum_and_replace(df, "Insg. Gästeübernachtungen", 2)
 
 # Umwandeln von absoluten Zahlen in Anteile
 calculate_shares_next <- function(df, base_column_name, next_n_columns) {
@@ -65,68 +71,60 @@ calculate_shares_next <- function(df, base_column_name, next_n_columns) {
   for (i in 1:next_n_columns) {
     df[[base_column + i]] <- round(df[[base_column + i]] / df[[base_column]] * 100, 3)
   }
-  return(df)
-}
-
-calculate_shares <- function(df, base_column_name, next_n_columns, additional_column_name = NULL) {
-  base_column <- which(colnames(df) == base_column_name)
   
-  if (!is.null(additional_column_name)) {
-    additional_column <- which(colnames(df) == additional_column_name)
-    
-    if (length(additional_column) == 0) {
-      stop("Additional column not found in the dataframe.")
-    }
-  }
-  
-  for (i in 1:next_n_columns) {
-    df[[base_column + i]] <- round(df[[base_column + i]] / df[[base_column]] * 100, 3)
-  }
-  
-  if (!is.null(additional_column_name)) {
-    df[[additional_column]] <- round(df[[additional_column]] / df[[base_column]] * 100, 3)
-  }
+  #Visualize rowsums to make sure sum is not above 100
+  viz_columns <- base_column + 1:(next_n_columns)
+  boxplot(rowSums(df[, viz_columns], na.rm = TRUE))
   
   return(df)
 }
 
-
-df <- calculate_shares(df, "Fläche insgesamt", 3, "Gewässer proz.")
-
-df <- calculate_shares(df, "Fläche insgesamt", 4)
-
+df <- calculate_shares_next(df, "Fläche insgesamt", 4)
 df <- calculate_shares_next(df, "Siedlungsfläche Gesamt", 9)
+df <- calculate_shares_next(df, "Ackerland insgesamt", 16)
+df <- calculate_shares_next(df, "Niederlassungen", 4)
+df <- calculate_shares_next(df, "Gültige Zweitstimmen", 7)
+df <- calculate_shares_next(df, "Insg. Gästeankünfte", 2)
+df <- calculate_shares_next(df, "Insg. Gästeübernachtungen", 2)
 
-df <- calculate_shares(df, "Ackerland insgesamt", 16)
-df <- calculate_shares(df, "Niederlassungen", 4)
-df <- calculate_shares(df, "Gültige Zweitstimmen", 7)
-df <- calculate_shares(df, "Insg. Gästeankünfte", 2)
-df <- calculate_shares(df, "Insg. Gästeübernachtungen", 2)
+
+# ID umbennen in AGS
+colnames(df)[1] <- "AGS"
+colnames(imputation_indicators)[1] <- "AGS"
+
+#Remove Kreis
+df <- subset(df, select = -Kreis)
+
+# Join ags mit data
+data <- left_join(ags, df, by = "AGS")
+imputation_indicators <- left_join(ags, imputation_indicators, by = "AGS")
+
+#2 NAs entfernen
+data <- na.omit(data)
+imputation_indicators <- na.omit(imputation_indicators)
 
 #Export der Datensätze
 
-data <- df
-
 save(data, imputation_indicators, file = "regional_daten_de.RData")
-save(data, imputation_indicators, file = "data.RData")
 
 # == Analyseteil ==
 
-load("data.RData")
-df <- data
+load("regional_daten_de.RData")
 
 # ID und Kreise raus für numerische Analysen
-df <- subset(df, select = -ID)
-df <- subset(df, select = -Kreis)
+df <- subset(df, select = -AGS)
+
 
 #Basics
 summary(df)
+
+df <- na.omit(df)
 
 corrplot(cor(df), tl.cex = 0.5)
 
 
 # Factor Analysis
-fa <- factanal(df,factors = 7, scores = "Bartlett", lower = 0.03)
+fa <- factanal(df,factors = 5, scores = "Bartlett", lower = 0.1)
 
 loadings <- t(as.matrix(fa$loadings))
 corrplot(loadings, 
